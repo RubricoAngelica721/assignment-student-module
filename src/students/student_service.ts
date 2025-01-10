@@ -16,35 +16,4 @@ export class StudentService {
     return await this.studentRepository.save(student);
   }
 
-  async findAll(): Promise<Student[]> {
-    return await this.studentRepository.find();
-  }
-
-  async findOne(id: number): Promise<Student> {
-    const student = await this.studentRepository.findOne({ where: { id } });
-    if (!student) {
-      throw new NotFoundException(`Student with ID ${id} not found`);
-    }
-    return student;
-  }
-
-  async update(
-    id: number,
-    updateStudentDto: UpdateStudentDto,
-  ): Promise<Student> {
-    const student = await this.findOne(id);
-    Object.assign(student, updateStudentDto);
-    return await this.studentRepository.save(student);
-  }
-
-  async remove(id: number): Promise<{ message: string }> {
-    const student = await this.findOne(id);
-    if (!student) {
-      throw new NotFoundException(`Student with ID ${id} not found`);
-    }
-    await this.studentRepository.remove(student);
-    return {
-      message: `Student with ID ${id} has been successfully deleted`
-    };
-  }
 }
