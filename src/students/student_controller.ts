@@ -7,6 +7,19 @@ import { Student } from './entity';
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
+  // Create a new student
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  async create(@Body() createStudentDto: CreateStudentDto): Promise<Student> {
+    return await this.studentService.create(createStudentDto);
+  }
+
+  // Get all students
+  @Get()
+  async findAll(): Promise<Student[]> {
+    return await this.studentService.findAll();
+  }
+
   // Get a specific student by ID
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Student> {
@@ -20,5 +33,12 @@ export class StudentController {
     @Body() UpdateStudentDto: Partial<CreateStudentDto>
   ): Promise<Student> {
     return await this.studentService.update(+id, UpdateStudentDto);
+  }
+
+  // Delete a student
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(@Param('id') id: string): Promise<void> {
+    return await this.studentService.remove(+id);
   }
 }
